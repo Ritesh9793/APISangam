@@ -15,3 +15,7 @@ Backend-first B2B API marketplace project.
 cd backend
 mvn spring-boot:run
 ```
+## Author & Developer
+- Ritesh Gupta : [SpringBoot Developer]
+- ritesh97935gupt@gmail.com
+- https://www.linkedin.com/in/rit3sh-6upta/
