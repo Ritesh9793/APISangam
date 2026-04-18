@@ -594,6 +594,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 4. **Developer Experience**: Comprehensive SDKs and documentation
 5. **Fair Pricing**: Transparent pricing with no hidden fees
 
----
+## Author & Developer
+- Ritesh Gupta : [SpringBoot Developer]
+- ritesh97935gupt@gmail.com
+- https://www.linkedin.com/in/rit3sh-6upta/
 
 **Made with ❤️ for Indian Businesses**
