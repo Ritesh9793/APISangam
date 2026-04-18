@@ -1,0 +1,53 @@
+package com.apimarketplace.dto.kyc;
+
+import com.apimarketplace.entity.enums.KycStatus;
+import com.apimarketplace.entity.enums.KycVerificationMethod;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
+
+@Schema(description = "KYC application with compliance verification outcomes and review state.")
+public record KycApplicationResponse(
+    UUID id,
+    UUID userId,
+    String legalBusinessName,
+    String contactName,
+    String email,
+    String phoneNumber,
+    String businessType,
+    String panNumber,
+    String gstin,
+    String bankAccountMasked,
+    String bankIfsc,
+    String registeredAddress,
+    KycStatus status,
+    boolean panVerified,
+    boolean gstinVerified,
+    boolean bankVerified,
+    boolean aadhaarBasicVerified,
+    boolean aadhaarOcrVerified,
+    boolean drivingLicenseVerified,
+    boolean passportVerified,
+    boolean voterIdVerified,
+    boolean faceMatchVerified,
+    boolean faceLivenessVerified,
+    String rejectionReason,
+    UUID reviewerId,
+    Instant submittedAt,
+    Instant reviewedAt,
+    List<KycVerificationMethod> verificationMethods,
+    String verificationProvider,
+    String verificationReference,
+    String verificationSummary,
+    List<String> verificationReferences,
+    String aadhaarMasked,
+    String drivingLicenseMasked,
+    String passportMasked,
+    String voterIdMasked,
+    String selfieImageUrl,
+    String idDocumentImageUrl,
+    List<String> supportingDocuments,
+    Instant createdAt,
+    Instant updatedAt
+) {}

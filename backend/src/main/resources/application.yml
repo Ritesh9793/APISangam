@@ -1,0 +1,95 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: api-marketplace-backend
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      repositories:
+        enabled: false
+    elasticsearch:
+      repositories:
+        enabled: false
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS:http://localhost:9200}
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:api_marketplace}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: true
+  flyway:
+    enabled: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:ChangeMeChangeMeChangeMeChangeMeChangeMe}
+      access-token-minutes: ${JWT_ACCESS_TOKEN_EXPIRATION_MINUTES:60}
+      refresh-token-days: ${JWT_REFRESH_TOKEN_EXPIRATION_DAYS:30}
+  business:
+    gst-rate: ${GST_RATE:0.18}
+  payment:
+    upi-merchant-id: ${UPI_MERCHANT_ID:apimarketplace}
+  notification:
+    email:
+      from: ${NOTIFICATION_EMAIL_FROM:no-reply@apimarketplace.local}
+      enabled: ${NOTIFICATION_EMAIL_ENABLED:false}
+    sms:
+      enabled: ${NOTIFICATION_SMS_ENABLED:false}
+      endpoint: ${SMS_GATEWAY_URL:}
+      api-key: ${SMS_GATEWAY_API_KEY:}
+      sender-id: ${SMS_SENDER_ID:APIMKT}
+  cache:
+    api-catalog-ttl-seconds: ${API_CATALOG_CACHE_TTL_SECONDS:300}
+    api-key-validation-ttl-seconds: ${API_KEY_VALIDATION_CACHE_TTL_SECONDS:300}
+    provider-analytics-ttl-seconds: ${PROVIDER_ANALYTICS_CACHE_TTL_SECONDS:60}
+  search:
+    elasticsearch-enabled: ${SEARCH_ELASTICSEARCH_ENABLED:false}
+  kyc:
+    provider:
+      enabled: ${KYC_PROVIDER_ENABLED:false}
+      prefer-remote: ${KYC_PROVIDER_PREFER_REMOTE:true}
+      base-url: ${KYC_PROVIDER_BASE_URL:}
+      api-key: ${KYC_PROVIDER_API_KEY:}
+      webhook-secret: ${KYC_PROVIDER_WEBHOOK_SECRET:}
+      paths:
+        bank-account: ${KYC_PROVIDER_BANK_ACCOUNT_PATH:/bank-account-verification}
+        pan: ${KYC_PROVIDER_PAN_PATH:/pan-verification}
+        gst: ${KYC_PROVIDER_GST_PATH:/gst-verification}
+        aadhaar-basic: ${KYC_PROVIDER_AADHAAR_BASIC_PATH:/basic-aadhaar-check}
+        aadhaar-ocr: ${KYC_PROVIDER_AADHAAR_OCR_PATH:/aadhaar-ocr-check}
+        driving-license: ${KYC_PROVIDER_DRIVING_LICENSE_PATH:/driving-license-verification}
+        passport: ${KYC_PROVIDER_PASSPORT_PATH:/passport-verification}
+        voter-id: ${KYC_PROVIDER_VOTER_ID_PATH:/voter-id-verification}
+        face-match: ${KYC_PROVIDER_FACE_MATCH_PATH:/face-match-api}
+        face-liveness: ${KYC_PROVIDER_FACE_LIVENESS_PATH:/face-liveness-check-api}
+  settlement:
+    platform-fee-rate: ${SETTLEMENT_PLATFORM_FEE_RATE:0.10}
+  rate-limit:
+    window-seconds: ${RATE_LIMIT_WINDOW_SECONDS:60}

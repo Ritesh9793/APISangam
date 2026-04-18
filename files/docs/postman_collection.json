@@ -1,0 +1,187 @@
+{
+  "info": {
+    "name": "API Marketplace Backend",
+    "_postman_id": "1bb8bf0d-4e13-43ed-85fe-f9fbe7e95d3b",
+    "description": "Postman collection for the API Marketplace backend, including richer KYC verification flows.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "accessToken", "value": "" },
+    { "key": "refreshToken", "value": "" },
+    { "key": "kycApplicationId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"provider@apimarketplace.local\",\n  \"password\": \"Provider@1234\",\n  \"fullName\": \"Demo Provider\",\n  \"companyName\": \"FinEdge Systems\",\n  \"role\": \"PROVIDER\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "register"]
+        }
+      }
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"provider@apimarketplace.local\",\n  \"password\": \"Provider@1234\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "login"]
+        }
+      }
+    },
+    {
+      "name": "Auth - Refresh",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/refresh",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "refresh"]
+        }
+      }
+    },
+    {
+      "name": "Auth - Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/logout",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "logout"]
+        }
+      }
+    },
+    {
+      "name": "KYC - Submit Rich Verification",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"legalBusinessName\": \"Demo Provider Private Limited\",\n  \"contactName\": \"Ritesh Sharma\",\n  \"email\": \"provider@apimarketplace.local\",\n  \"phoneNumber\": \"9876543210\",\n  \"businessType\": \"Business\",\n  \"panNumber\": \"ABCDE1234F\",\n  \"gstin\": \"22ABCDE1234F1Z5\",\n  \"bankAccountNumber\": \"123456789012\",\n  \"bankIfsc\": \"HDFC0ABC123\",\n  \"aadhaarNumber\": \"123412341234\",\n  \"drivingLicenseNumber\": \"KA0120200001234\",\n  \"passportNumber\": \"M1234567\",\n  \"voterIdNumber\": \"ABC1234567\",\n  \"selfieImageUrl\": \"https://cdn.example.com/selfie.jpg\",\n  \"idDocumentImageUrl\": \"https://cdn.example.com/id-document.jpg\",\n  \"verificationMethods\": [\n    \"BANK_ACCOUNT\",\n    \"PAN\",\n    \"GST\",\n    \"AADHAAR_BASIC\",\n    \"AADHAAR_OCR\",\n    \"FACE_MATCH\",\n    \"FACE_LIVENESS\"\n  ],\n  \"consentGiven\": true,\n  \"registeredAddress\": \"Registered office, Bengaluru\",\n  \"supportingDocuments\": [\n    \"pan-card.pdf\",\n    \"gst-certificate.pdf\",\n    \"cancelled-cheque.pdf\"\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/compliance/kyc/submit",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "compliance", "kyc", "submit"]
+        }
+      }
+    },
+    {
+      "name": "KYC - Provider Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"applicationId\": \"{{kycApplicationId}}\",\n  \"referenceId\": \"AADHAARKYC-REF-001\",\n  \"method\": \"PAN\",\n  \"status\": \"VERIFIED\",\n  \"verified\": true,\n  \"message\": \"PAN verified by provider\",\n  \"score\": 0.99,\n  \"signature\": \"\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/compliance/kyc/provider/webhook",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "compliance", "kyc", "provider", "webhook"]
+        }
+      }
+    },
+    {
+      "name": "KYC - Get My Application",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/compliance/kyc/me",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "compliance", "kyc", "me"]
+        }
+      }
+    },
+    {
+      "name": "KYC - Admin Pending Queue",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/compliance/kyc/pending",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "compliance", "kyc", "pending"]
+        }
+      }
+    },
+    {
+      "name": "KYC - Approve",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/compliance/kyc/{{kycApplicationId}}/approve",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "compliance", "kyc", "{{kycApplicationId}}", "approve"]
+        }
+      }
+    },
+    {
+      "name": "KYC - Reject",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reason\": \"Bank proof image is unreadable\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/compliance/kyc/{{kycApplicationId}}/reject",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "compliance", "kyc", "{{kycApplicationId}}", "reject"]
+        }
+      }
+    }
+  ]
+}
